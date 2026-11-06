@@ -1,0 +1,23 @@
+{
+  "name": "rhodes-gatekeeper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rhodes Gatekeeper \u2014 visitor management for the site gate",
+  "scripts": {
+    "install:all": "npm --prefix server ci && npm --prefix web ci",
+    "dev:server": "npm --prefix server run dev",
+    "dev:web": "npm --prefix web run dev",
+    "build": "npm --prefix web run build && npm --prefix server run build",
+    "start": "npm --prefix server start",
+    "test": "npm --prefix server test",
+    "typecheck": "npm --prefix server run typecheck && npm --prefix web run typecheck",
+    "seed": "npm --prefix server run seed",
+    "dev:tablet": "npm --prefix web run dev:mobile",
+    "build:tablet": "npm --prefix web run build:native",
+    "android": "npm --prefix web run android",
+    "ios": "npm --prefix web run ios"
+  },
+  "engines": {
+    "node": ">=20.12"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Rhodes Gatekeeper",
+    "slug": "rhodes-gatekeeper",
+    "owner": "arabzakiyyah",
+    "version": "2.0.0",
+    "ios": {
+      "bundleIdentifier": "mu.rhodes.gatekeeper",
+      "supportsTablet": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3d6cbb34-ef19-48e0-8a0f-c58c32414f65"
+      }
+    }
+  }
+}

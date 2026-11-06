@@ -1,0 +1,43 @@
+build:
+  name: Gatekeeper V2 iPad preview
+  steps:
+    - eas/checkout
+    - eas/install_node_modules
+
+    - run:
+        name: Build tablet screens and install iOS dependencies
+        command: |
+          npm run typecheck
+          npm run build:native
+          npx cap sync ios
+          test -f ios/App/App.xcworkspace/contents.xcworkspacedata
+
+    - eas/configure_ios_credentials
+
+    - eas/generate_gymfile_from_template:
+        inputs:
+          credentials: ${ eas.job.secrets.buildCredentials }
+          scheme: App
+          build_configuration: Release
+          template: |
+            workspace(File.expand_path("App/App.xcworkspace", __dir__))
+            scheme("<%- SCHEME %>")
+            configuration("<%- BUILD_CONFIGURATION %>")
+            destination("generic/platform=iOS")
+            clean(true)
+            skip_archive(false)
+            skip_package_ipa(false)
+            export_options({
+              method: "<%- EXPORT_METHOD %>",
+              provisioningProfiles: {<% _.forEach(PROFILES, function(profile) { %>
+                "<%- profile.BUNDLE_ID %>" => "<%- profile.UUID %>",<% }); %>
+              }
+            })
+            export_xcargs "OTHER_CODE_SIGN_FLAGS=\"--keychain <%- KEYCHAIN_PATH %>\""
+            suppress_xcode_output(false)
+            disable_xcpretty(true)
+            buildlog_path("<%- LOGS_DIRECTORY %>")
+            output_directory("<%- OUTPUT_DIRECTORY %>")
+
+    - eas/run_fastlane
+    - eas/find_and_upload_build_artifacts
